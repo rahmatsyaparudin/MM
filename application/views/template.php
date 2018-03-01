@@ -80,35 +80,40 @@
 
 						<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li <?php if($this->uri->segment(3)=='timeline'){echo ' class="active"';}?>>
-									<a href="<?=base_url()?>index.php/home/timeline" onClick="killProcess()" title="Timeline">Timeline</a>
+								<li <?php if($this->uri->segment(2)=='timeline'){echo ' class="active"';}?>>
+									<a href="<?=base_url()?>index.php/home/timeline/" onClick="killProcess()" title="Timeline">Timeline</a>
 								</li>
-								<?php if ($this->session->userdata('isLogin') == TRUE){ ?>
-								<li <?php if($this->uri->segment(3)=='upload'){echo ' class="active"';}?>>
-									<a href="<?=base_url()?>index.php/home/upload" onClick="killProcess()" title="File Upload">File Upload</a>
+								<? if ($this->session->userdata('isLogin') == TRUE) : ?>
+								<li <?php if($this->uri->segment(2)=='upload'){echo ' class="active"';}?>>
+									<a href="<?=base_url()?>index.php/home/upload/" onClick="killProcess()" title="File Upload">File Upload</a>
 								</li>
-								<!-- <li <?php if($this->uri->segment(2)=='file'){echo ' class="active"';}?>>
-									<a href="<?=base_url()?>home/file" onClick="killProcess()" title="File List">File List</a>
-								</li> -->
-								<?php if ($this->session->userdata('isAdmin') == 1){ ?>
-								<li <?php if($this->uri->segment(3)=='user'){echo ' class="active"';}?>>
-									<a href="<?=base_url()?>index.php/home/user" onClick="killProcess()" title="User List">User List</a>
+								<? if ($this->session->userdata('isAdmin') == 1) : ?>
+								<li <?php if($this->uri->segment(2)=='user'){echo ' class="active"';}?>>
+									<a href="<?=base_url()?>index.php/home/user/" onClick="killProcess()" title="User List">User List</a>
 								</li>
-								<?php } ?>
+								<? endif ?>
 								<li>
 									<a href="<?=base_url()?>index.php/home/signout">Sign Out</a>
 								</li>
-								<?php }else{ ?>
-								<li <?php if($this->uri->segment(3)=='signin'){echo ' class="active"';}?>>
+								<? endif ?>
+								<? if ($this->session->userdata('isLogin') != TRUE) : ?>
+								<li <?php if($this->uri->segment(2)=='signin'){echo ' class="active"';}?>>
 									<a href="<?=base_url()?>index.php/home/signin" onClick="killProcess()" title="Sign in">Sign in</a>
 								</li>
-								<?php } ?>
+								<? endif ?>
 							</ul>
 						</div>
-						<?php if ($this->session->userdata('isLogin') == TRUE){ $name = $this->session->userdata('name');?>
+						<?php if ($this->session->userdata('isLogin') == TRUE){ $nameUser = $this->session->userdata('getName');?>
 						<div class="navbar-custom-menu">
 							<ul class="nav navbar-nav">
-								<li><a href="#">Welcome, <?=$name?></a></li>
+								<li><a href="#">
+									<?php 
+										if ($this->session->userdata('isAdmin') == 1) 
+											echo 'Welcome <i class="fa fa-user-secret"></i> , '.$nameUser; 
+										else 
+											echo 'Welcome <i class="fa fa-user"></i> , '.$nameUser;
+									?>
+								</a></li>
 							</ul>
 						</div>
 						<?php }else{} ?>
@@ -174,6 +179,12 @@
              		$("#alert").slideUp(500);
              	});
  			});
+
+ 			$(document).ready (function(){
+            	$("#alert").fadeTo(3000, 500).slideUp(500, function(){
+             		$("#alert").slideUp(500);
+             	});
+ 			});
 	
 			$().button('toggle');
 			$().button('dispose');
@@ -200,5 +211,3 @@
 		</script>
 	</body>
 </html>
-
-

@@ -12,7 +12,7 @@
 
 <section class="content">
 	<div class="row">	
-		<div class="alert alert-success alert-dismissible"><i class="icon fa fa-file"></i>File Name : <?=$data->name?> (<?=$data->file_name?>)</div>
+		<div class="alert alert-success alert-dismissible"><i class="icon fa fa-file"></i>File Name : <?=$data->file_tittle?> (<?=$data->file_name?>)</div>
 		<p><strong></strong></p>	
 		<div class="embed-responsive" style="padding-bottom:41%">
 			<div id="pdf"></div>

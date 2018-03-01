@@ -7,10 +7,10 @@
         var oTable = $('#userList').DataTable({
         	bInfo			: true,
 		    bJQueryUI		: true,
-		    bSearching		: true,
+		    searching		: true,
 	        bLengthChange	: true,
 	        bAutoWidth		: true,
-	        aLengthMenu		: [[5,10,25,50], [5,10,25,50]],
+	        aLengthMenu		: [[5,10,15,20], [5,10,15,20]],
 	        iDisplayLength	: 5,
 	        bPaginate		: true,
 	        sPaginationType	: 'simple_numbers',
@@ -57,15 +57,18 @@
 	  		var modalData = button.data('whatever');
 	  		var modal = $(this);
 	  		if (modalData != ''){ 
+	  			$('#addUser').hide();
+	  			$('#editUser').show();
 	  			$('#modalUser').removeClass('modal-primary');
   				$('#modalUser').addClass('modal-warning');
-	        	$.get('<?=base_url()?>index.php/home/jsonUserEdit/'+modalData, function(data){
+  				$.get('<?=base_url()?>index.php/home/jsonUserEdit/'+modalData, function(data){
 	        		var json = JSON.parse(data);
 	        		modal.find('.modal-title').text('Edit User Data - ' + json.name);
 	        		modal.find('#username').val(json.username);
 	        		modal.find('#password').val(json.password);
 	        		modal.find('#name').val(json.name);
 	        		modal.find('#email').val(json.email);
+	        		modal.find('#submit').val('editUser');
 	        		if (json.status == 1)
 	        		{
 	        			modal.find('#statusEnable').attr("checked", "checked");
@@ -78,16 +81,16 @@
 	        			modal.find('#disableLbl').removeClass("not-active");
 	        			modal.find('#enableLbl').addClass("not-active");
 	        		}
-	        		
-
-	        		//modal.find('form')[0].reset();
 	        	});
 	  		}else{
+	  			$('#addUser').show();
+	  			$('#editUser').hide();
 	  			$('#modalUser').removeClass('modal-warning');
   				$('#modalUser').addClass('modal-primary');
 	  			modal.find('.modal-body input').val('');
 	  			modal.find('.modal-body textarea').val('');
 	  			modal.find('.modal-body select').val('');
+	  			
 	  			modal.find('#statusDisable').removeAttr("checked");
 	  			modal.find('#statusEnable').removeAttr("checked");
 	        	modal.find('#disableLbl').removeClass("not-active");
@@ -95,6 +98,7 @@
 	        	modal.find('#enableLbl').removeClass("not-active");
 	        	modal.find('#enableLbl').addClass("not-active");
 	  			modal.find('.modal-title').text('Add User Data');
+	  			modal.find('#submit').val('addUser');
 	  		}
 		});
 	});

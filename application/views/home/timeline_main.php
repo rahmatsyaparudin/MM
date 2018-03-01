@@ -23,7 +23,7 @@
 				<li>
 					<i class="fa fa-clock-o bg-gray"></i>
 					<div class="timeline-item">
-						<h3 class="timeline-header <?=$bg[$color]?>" style="color:white;">Page <?=$this->numbertoword->number_to_word($this->uri->segment(4)?$this->uri->segment(4):1)?> of Timeline</h3>							
+						<h3 class="timeline-header <?=$bg[$color]?>" style="color:white;">Page <?=$this->numbertoword->number_to_word($this->uri->segment(4)?$this->uri->segment(4):1)?> of Timeline</h3>
 					</div>
 				</li>
 				<?php 
@@ -36,7 +36,7 @@
 						$number++;
 						$loc = $row->location;
 						$src = base_url().$loc.'#pagemode=thumbs&navpanes=1&toolbar=0&statusbar=1&view=FitH'; 
-						$name = $row->fileName;
+						$file_tittle = $row->file_tittle;
 
 						$timestamp = $row->timestamp;
 						$date = date('d M Y', strtotime($timestamp));
@@ -56,14 +56,14 @@
 							<i class="fa fa-clock-o" ></i> <time class="timeago" datetime="<?=$row->timestamp?>"></time>
 						</span>
 						<h3 class="timeline-header <?=$bg[$color]?>">
-							<?=$row->userName?> <i>upload a file</i> <?=$name?>
+							<?=$row->userName?> <i>upload a file</i> <?=$file_tittle?>
 						</h3>
 
 						<div class="timeline-body">
 							<div class="row">
-								<div class="col-md-12" style="text-align: justify;">
+								<div class="col-md-12" style="text-align: justify; word-wrap: break-word;">
             						<dl>
-            							<dd><b>Name of File : </b><?=$name?></dd>
+            							<dd><b>Tittle : </b><?=$file_tittle?></dd>
             							<dd><b>File : </b><?=$row->file_name?></dd>
                 						<dd><b>Upload Time : </b><?=$dateTime?></dd>
             							<dt>File Description :</dt>
@@ -95,11 +95,11 @@
 						</div>
 					
 						<div class="timeline-footer">
-							<a target="_blank" href="<?=base_url()?>index.php/home/viewFullscreen/<?=$row->file_id?>"  class="btn btn-xs <?=$bg[$color]?>">View in Fullscreen</a>
+							<a target="_blank" href="<?=base_url()?>index.php/home/viewFullscreen/<?=$this->aes128->aesEncrypt($row->file_id)?>"  class="btn btn-xs <?=$bg[$color]?>">View in Fullscreen</a>
 						</div>
 					</div>
 				</li>
-				<?php } }?>				
+				<?php } } $color = array_rand($bg);?>				
 				<li>
 					<i class="fa fa-clock-o bg-gray"></i>
 					<div class="timeline-item <?=$bg[$color]?>">

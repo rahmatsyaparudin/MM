@@ -9,31 +9,27 @@
  */
 class Home_db extends CI_MODEL
 {
-   public function insert_file($data)
+    /** User Table **/
+    public function user_login($username)
     {
-    	$this->db->trans_start();
-		$query = $this->db->insert('file_list', $data);
-		$this->db->trans_complete();
+        $where = "username = '".$username."' AND status = 1";
+        $this->db->select('username, name, password, status, isDeleted, isAdmin');
+        $this->db->from('user');
+        $this->db->where('username', $username);
+        $query = $this->db->get()->result();
+        return $query;
     }
 
-    public function file_select_all($limit, $offset)
+    public function user_login_check_row($username)
     {
-        $this->db->select('file_id, a.name AS fileName, file_name, file_desc, location, a.timestamp, b.name AS userName'); 
-        $this->db->from('file_list a');
-        $this->db->join('user b', 'a.username = b.username');        
-        $this->db->order_by('a.timestamp', 'DESC');
-        $this->db->limit($limit,$offset);
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $data[] = $row;
-            }
-            return $data;
-        }
-        return false; 
-    }
-
+        $where = " username = '".$username."' AND status = 1";
+        $this->db->select('name, username, password, status, isDeleted, isAdmin');
+        $this->db->from('user');
+        $this->db->where($where);
+        $query = $this->db->get()->row();
+        return $query;
+    }  
+    
     public function user_select_all()
     {
         $where = "status in (1,0) AND isDeleted IS NULL";
@@ -41,15 +37,6 @@ class Home_db extends CI_MODEL
         $this->db->from('user');
         $this->db->where($where);
         $this->db->order_by('timestamp', 'DESC');
-        $query = $this->db->get()->result();
-        return $query;
-    }
-
-    public function setting_select_all()
-    {
-        $this->db->select('*');
-        $this->db->from('setting');
-        $this->db->where('status', 1);
         $query = $this->db->get()->result();
         return $query;
     }
@@ -72,50 +59,88 @@ class Home_db extends CI_MODEL
         return $query;
     }
 
+    /** File_list Table **/
+    public function timeline_data($limit, $offset)
+    {
+        $this->db->select('file_id, file_tittle, file_name, file_desc, location, a.timestamp, b.name AS userName'); 
+        $this->db->from('file_list a');
+        $this->db->join('user b', 'a.username = b.username');        
+        $this->db->order_by('a.timestamp', 'DESC');
+        $this->db->limit($limit,$offset);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false; 
+    }
+
+    public function timeline_total_rows()
+    {
+        $query = $this->db->get('file_list')->num_rows();
+        return $query;
+    }
+
+    public function timeline_fullscreen($id)
+    {
+        $this->db->select('location, file_name, file_tittle');
+        $this->db->from('file_list');
+        $this->db->where('file_id', $id);
+        $query = $this->db->get()->row();
+        return $query;
+    }    
+
+    public function upload_select_all()
+    {
+        $this->db->select('file_id, a.file_tittle as fname, b.name as uname, location, file_desc, file_name, a.timestamp as time');
+        $this->db->from('file_list a');
+        $this->db->join('user b', 'a.username = b.username');  
+        $this->db->where('a.status', 1);
+        $this->db->order_by('a.timestamp', 'DESC');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function upload_insert($data)
+    {
+    	$this->db->trans_start();
+		$query = $this->db->insert('file_list', $data);
+		$this->db->trans_complete();
+    }
+
+    public function upload_update($id, $data)
+    {
+        $this->db->where('file_id', $id);
+        $this->db->update('file_list', $data);
+    }
+
+    public function upload_edit($id='')
+    {
+        $this->db->select('*');
+        $this->db->from('file_list');
+        $this->db->where('file_id', $id);
+        $query = $this->db->get();
+        return $query;
+    }
+
+    /** Setting Table **/
+    public function setting_select_all()
+    {
+        $this->db->select('*');
+        $this->db->from('setting');
+        $this->db->where('status', 1);
+        $query = $this->db->get()->result();
+        return $query;
+    }   
+
     public function supported_format()
     {
         $this->db->select('file_format');
         $this->db->from('setting');
         $query = $this->db->get();
         return $query->row()->file_format;
-    }
-
-    public function user_login($username)
-    {
-        $where = "username = '".$username."' AND status = 1";
-        $this->db->select('username, name, password, status, isDeleted, isAdmin');
-        $this->db->from('user');
-        $this->db->where('username', $username);
-        $query = $this->db->get()->result();
-        return $query;
-    }
-
-    public function user_login_check_row($username)
-    {
-        $where = " username = '".$username."' AND status = 1";
-        $this->db->select('name, username, password, status, isDeleted, isAdmin');
-        $this->db->from('user');
-        $this->db->where($where);
-        $query = $this->db->get()->row();
-        return $query;
-    }
-
-    public function select_file_fullscreen($id)
-    {
-        $this->db->select('location, file_name, name');
-        $this->db->from('file_list');
-        $this->db->where('file_id', $id);
-        $query = $this->db->get()->row();
-        return $query;
-    }
-
-    public function total_rows(){
-        $query = $this->db->get('file_list')->num_rows();
-        return $query;
-    }
-
-    public function data($number,$offset){
-        $query = $this->db->get('file_list',$number,$offset)->result();
-        return $query;
-    }
+    }  
 }
