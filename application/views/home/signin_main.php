@@ -14,13 +14,12 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
 			<div class="login-logo">
-				<a href="<?=base_url()?>index.php/"><b>EDP</b>Login</a>
+				<a href="<?=base_url()?>index.php/"><b>Morning</b>Meeting</a>
 			</div>
 			
 			<div class="login-box-body">
 				<p class="login-box-msg">Sign in to start your session</p>
 				<?=$message?>
-
 				<form action="" method="POST" enctype="multipart/form-data">
 					<div class="form-group has-feedback">
 						<input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?=$username?>">
@@ -43,7 +42,7 @@
 		</div>
 	</div>
 </section>
-	<script>
+	<!-- <script>
 		$(function () {
 			$('input').iCheck({
 				checkboxClass: 'icheckbox_square-blue',
@@ -51,4 +50,4 @@
 				increaseArea: '20%'
 			});
 		});
-	</script>
+	</script> -->

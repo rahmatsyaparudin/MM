@@ -46,17 +46,28 @@ class Home_db extends CI_MODEL
         $this->db->select('*');
         $this->db->from('user');
         $this->db->where('username', $id);
-        $query = $this->db->get()->result();
+        $query = $this->db->get()->row();
         return $query;
     }
 
-    public function user_get_byId2($id)
+    public function user_insert($data)
     {
-        $this->db->select('*');
-        $this->db->from('user');
+        $this->db->trans_start();
+        $query = $this->db->insert('user', $data);
+        $this->db->trans_complete();
+    }
+
+    public function user_update($id, $data)
+    {
         $this->db->where('username', $id);
-        $query = $this->db->get()->row();
-        return $query;
+        $this->db->update('user', $data);
+    }
+
+    public function user_delete($id)
+    {
+        $this->db->where('username', $id);
+        $this->db->update('user', array('isDeleted' => 1));
+        #$this->db->delete('user');
     }
 
     /** File_list Table **/
@@ -104,6 +115,15 @@ class Home_db extends CI_MODEL
         return $query;
     }
 
+    public function upload_get_location($id)
+    {
+        $this->db->select('location');
+        $this->db->from('file_list');
+        $this->db->where('file_id', $id);
+        $query = $this->db->get();
+        return $query->row()->location;
+    }
+
     public function upload_insert($data)
     {
     	$this->db->trans_start();
@@ -124,6 +144,12 @@ class Home_db extends CI_MODEL
         $this->db->where('file_id', $id);
         $query = $this->db->get();
         return $query;
+    }
+
+    public function upload_delete($id)
+    {
+        $this->db->where('file_id', $id);
+        $this->db->delete('file_list');
     }
 
     /** Setting Table **/

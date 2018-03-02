@@ -14,7 +14,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Divisi EDP | RS Hermina</title>
+		<title>Morning Meeting</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">		
 		<link rel="stylesheet" href="<?=base_url()?>bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -55,6 +55,9 @@
 			    height: 0;
 			    padding: 0;
 			}
+			.swal-overlay {
+  				background-color: rgba(43, 165, 137, 0.45);
+			}
    			input[type=text]:valid {color: black;}
    			input[type=text]:invalid {color: red;}
    			input[type=email]:valid {color: black;}
@@ -74,7 +77,7 @@
 				<nav class="navbar navbar-static-top">
 					<div class="container">
 						<div class="navbar-header">
-							<a href="<?=base_url()?>index.php/" class="navbar-brand"><b>EDP</b>Hermina</a>
+							<a href="<?=base_url()?>index.php/" class="navbar-brand"><b>Morning</b>Meeting</a>
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"><i class="fa fa-bars"></i></button>
 						</div>
 
@@ -127,9 +130,9 @@
 			
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
-					<b>Version</b> 1.0.0 (beta)
+					<b>Version</b> 1.5.0
 				</div>
-				<strong>Copyright &copy; 2018 Divisi EDP | RS Hermina.</strong> Template By <a href="https://adminlte.io">Almsaeed Studio</a>
+				<strong>Copyright &copy; 2018 Morning Meeting.</strong> Template By <a href="https://adminlte.io">Almsaeed Studio</a>
 			</footer>
 
 			<div class="control-sidebar-bg"></div>
@@ -149,65 +152,38 @@
 		<script src="<?=base_url()?>dist/js/adminlte.min.js"></script>
 		<script src="<?=base_url()?>dist/js/jquery.timeago.js" type="text/javascript"></script>
 		<script src="<?=base_url()?>dist/js/pages/dashboard.js"></script>
+		<script src="<?=base_url()?>dist/js/sweetalert.min.js"></script>
 		<script src="<?=base_url()?>/dist/js/pdfobject.js"></script>
-		<script>
-		  $.widget.bridge('uibutton', $.ui.button);
-		  PDFJS.workerSrc = '<?=base_url()?>/build/pdf.worker.js';
-		</script>
 		<script type="text/javascript">
+			$(function() {
+            	$(this).bind("contextmenu", function(e) {
+                	e.preventDefault();
+            	});
+        	}); 
 			$(document).ready(function(){
+				$('[data-toggle="tooltip"]').tooltip();
+			    $('[data-toggle="modal"]').tooltip();
+
 				jQuery("time.timeago").timeago();
 
 				document.onmousedown=disableclick;
 				status="Sorry, right click disabled for security reason";
 				function disableclick(event){
 					if(event.button==2)	{
-						 alert(status);
-						 return false;    
+						// alert(status);
+            			event.preventDefault();
+						swal({
+  							text: status,
+  							icon: "warning",
+  							button: "Are you kidding me?",
+						});
+						return false;    
 					}
 				} 			    
 			});
 
-			$(function() {
-			    $('.radio-group label').on('click', function(){
-			        $(this).removeClass('not-active').siblings().addClass('not-active');
-			    });
-			});
-
-			$(document).ready (function(){
-            	$("#alert").fadeTo(3000, 500).slideUp(500, function(){
-             		$("#alert").slideUp(500);
-             	});
- 			});
-
- 			$(document).ready (function(){
-            	$("#alert").fadeTo(3000, 500).slideUp(500, function(){
-             		$("#alert").slideUp(500);
-             	});
- 			});
-	
 			$().button('toggle');
-			$().button('dispose');
-			
-			$(function(){
-			    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-			      checkboxClass: 'icheckbox_minimal-blue',
-			      radioClass   : 'iradio_minimal-blue'
-			    });
-			    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-			      checkboxClass: 'icheckbox_minimal-red',
-			      radioClass   : 'iradio_minimal-red'
-			    });
-			    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-			      checkboxClass: 'icheckbox_flat-green',
-			      radioClass   : 'iradio_flat-green'
-			    });
-			});
-		
-			$(document).ready(function(){
-			    $('[data-toggle="tooltip"]').tooltip();
-			    $('[data-toggle="modal"]').tooltip();   
-			});
+			$().button('dispose');	
 		</script>
 	</body>
 </html>

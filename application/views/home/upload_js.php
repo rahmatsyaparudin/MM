@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){		
-		$.fn.DataTable.ext.pager.numbers_length = 7;
+		$.fn.DataTable.ext.pager.numbers_length = 5;
         var oTable = $('#uploadList').DataTable({
         	aLengthMenu		: [[5,10,15,20], [5,10,15,20]],
 		    bLengthChange	: true,
@@ -11,7 +11,7 @@
 	        bPaginate		: true,
 	        bInfo			: true,
 		    bJQueryUI		: true,
-	     	bFilter 		: false,
+	     	bFilter 		: true,
             bProcessing		: false,
 			bServerSide		: false,
 			bDestroy		: true,
@@ -36,7 +36,7 @@
 	
         setInterval( function () {
 		    oTable.ajax.reload(null, false);
-		}, 10000);
+		}, 5000);
 
 		$('#uploadList tbody').on( 'click', 'tr', function () {
 	        if ($(this).hasClass('selected')) {
@@ -59,54 +59,54 @@
 	    });
 	});
 
-	
-	$(document).ready(function(){
-		$('#modalUser').on('show.bs.modal', function (event) 
-		{
-			var button = $(event.relatedTarget);
-	  		var modalData = button.data('whatever');
-	  		var modal = $(this);
-	  		if (modalData != ''){ 
-	  			$('#modalUser').removeClass('modal-primary');
-  				$('#modalUser').addClass('modal-warning');
-	        	$.get('<?=base_url()?>index.php/home/jsonUserEdit/'+modalData, function(data){
-	        		var json = JSON.parse(data);
-	        		modal.find('.modal-title').text('Edit User Data - ' + json.name);
-	        		modal.find('#username').val(json.username);
-	        		modal.find('#password').val(json.password);
-	        		modal.find('#name').val(json.name);
-	        		modal.find('#email').val(json.email);
-	        		if (json.status == 1)
-	        		{
-	        			modal.find('#statusEnable').attr("checked", "checked");
-	        			modal.find('#enableLbl').removeClass("not-active");
-	        			modal.find('#disableLbl').addClass("not-active");
-	        		}
-	        		else if (json.status == 0)
-	        		{
-	        			modal.find('#statusDisable').attr("checked", "checked");
-	        			modal.find('#disableLbl').removeClass("not-active");
-	        			modal.find('#enableLbl').addClass("not-active");
-	        		}
-	        		
-
-	        		//modal.find('form')[0].reset();
-	        	});
-	  		}else{
-	  			$('#modalUser').removeClass('modal-warning');
-  				$('#modalUser').addClass('modal-primary');
-	  			modal.find('.modal-body input').val('');
-	  			modal.find('.modal-body textarea').val('');
-	  			modal.find('.modal-body select').val('');
-	  			modal.find('#statusDisable').removeAttr("checked");
-	  			modal.find('#statusEnable').removeAttr("checked");
-	        	modal.find('#disableLbl').removeClass("not-active");
-	        	modal.find('#disableLbl').addClass("not-active");
-	        	modal.find('#enableLbl').removeClass("not-active");
-	        	modal.find('#enableLbl').addClass("not-active");
-	  			modal.find('.modal-title').text('Add User Data');
-	  		}
+	function fileDelete(id) {
+		swal({
+  			title: "Are you sure want to delete file id "+id+"?",
+  			text: "Once deleted, you will not be able to recover this file?",
+  			icon: "warning",
+  			buttons: ["Please No!", "Yes, Delete It!"],
+  			dangerMode: true,
+  			closeOnClickOutside: false,
+  			closeOnEsc: false,
+  			className: "btn-warning",
+		})
+		.then((willDelete) => {
+  			if (willDelete) {
+  				$.ajax({
+					url: "<?=base_url()?>index.php/home/jsonUploadDelete/"+id,
+					type: 'POST',
+					dataType: 'JSON',
+					data: {id : id,},
+					success: function(data) {
+						if(data.status == 'success'){
+							swal({
+								title: "Oh, Poof!",
+  								text: "Your file with id "+id+" has been deleted!",
+      							icon: "success",
+      							button: "I'm Fine!",
+    						});
+						} else {
+							swal({
+								title: "Oh Snap!",
+  								text: "The AJAX request failed! "+data.status,
+      							icon: "error",
+      							button: "Find Out!",
+      							className: "btn-danger",
+    						});
+						}
+					}
+				});
+				return true;    			
+  			} else {
+    			swal({
+					title: "Proud!",
+  					text: "Your file with id "+id+" is safe!",
+      				icon: "info",
+      				button: "Thanks God!",
+      				className: "btn-info",
+    			});
+  			}
 		});
-	});
+	}
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
