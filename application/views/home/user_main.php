@@ -52,45 +52,48 @@
 	</div>
 </section>
 
+<!-- Add User Modal -->
 <div class="modal fade modal-primary" id="modalAddUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
 	<div class="modal-dialog" role="document">
    		<div class="modal-content">
    			<div class="modal-header modal-info">
-       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-       				<h4 class="modal-title" id="exampleModalLabel">Add User Data</h4>
+       			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       				<span aria-hidden="true">&times;</span>
+       			</button>
+       			<h4 class="modal-title" id="exampleModalLabel">Add User Data</h4>
    			</div>
-      					
+      		<div id="row">			
    			<form class="form-horizontal" id="userForm" action="" method="POST" enctype="<?php echo $_SERVER['PHP_SELF'] ?>">
-   				<div class="modal-body">
+   				<div class="modal-body modal-center">
 					<div class="form-group">
-						<label class="control-label col-xs-4">Username</label> 
+						<label class="control-label col-xs-3">Username</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="text" class="form-control" name="username" id="username" placeholder="Username"  required="required">
-								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Password</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required">
-								<span class="input-group-addon"><i class="fa fa-id-card"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Name</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="name" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+"e>									
+								<input type="text" class="form-control" name="username" id="username" placeholder="Username"  required="required" pattern="[a-zA-Z0-9]{5,25}" minlength="5" maxlength="25" title="Username only contain number and letter between 5 and 25 character">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span> 
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Email</label> 
+						<label class="control-label col-xs-3">Password</label> 
+						<div class="col-xs-8">
+							<div class="input-group">
+								<input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" minlength="8" maxlength="50" title="Password must contain letter and number at least 8 character">
+								<span class="input-group-addon"><i class="fa fa-lock"></i></span> 
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Name</label> 
+						<div class="col-xs-8">
+							<div class="input-group">
+								<input type="text" class="form-control" name="name" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+">									
+								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Email</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
 								<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -98,7 +101,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Level</label> 
+						<label class="control-label col-xs-3">Level</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">							
                    				<label class="btn btn-success not-active" id="disableLbl">
@@ -113,11 +116,11 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Status</label> 
+						<label class="control-label col-xs-3">Status</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">
-								<label class="btn btn-success not-active" id="enableLbl"><i class="fa fa-check-square-o">									
-								</i> Enable 
+								<label class="btn btn-success not-active" id="enableLbl">
+									<i class="fa fa-check-square-o"></i> Enable 
 									<input type="radio" name="statusAdd" id="statusEnable" value="enable" required="required">
 								</label>
                    				<label class="btn btn-danger not-active" id="disableLbl">
@@ -130,86 +133,88 @@
 				</div>
 
 		        <div class="modal-footer">
-		           	<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-		           	<button type="reset" class="btn btn-danger pull-right" name="reset" ><i class="fa fa-ban"></i> Reset</button>
+		           	<button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-ban"></i> Close</button>
+		           	<button type="reset" class="btn btn-info pull-right" name="reset" ><i class="fa fa-refresh"></i> Reset</button>
 		           	<span class="pull-right">&nbsp;&nbsp;</span>
 		           	<button type="submit" name="addUser" id="submit" class="btn btn-success pull-right" value="Add"><i class="fa fa-save"></i> Submit</button>
 		        </div>
-	    	</form>
+	    	</form></div>
       	</div>
    	</div>
 </div>
 
-<!-- <div class="modal fade modal-primary" id="modalEditUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+<!-- Edit User Modal -->
+<div class="modal fade modal-primary" id="modalEditUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
 	<div class="modal-dialog" role="document">
    		<div class="modal-content">
    			<div class="modal-header modal-info">
        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-       				<h4 class="modal-title" id="exampleModalLabel">Add User Data</h4>
+       			<h4 class="modal-title" id="exampleModalLabel">Edit User Data</h4>
    			</div>
-      					
-   			<form class="form-horizontal" id="userForm" action="" method="GET" enctype="<?php #echo $_SERVER['PHP_SELF'] ?>">
-   				<div class="modal-body">
+      		<div id="row">			
+   			<form class="form-horizontal" id="userForm" action="" method="POST" enctype="<?php echo $_SERVER['PHP_SELF'] ?>">
+   				<div class="modal-body modal-center">
 					<div class="form-group">
-						<label class="control-label col-xs-4">Username</label> 
+						<label class="control-label col-xs-3">Username</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="text" class="form-control" name="username" id="username" placeholder="Username"  required="required">
-								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Password</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="password" id="password" placeholder="Password" required="required">
-								<span class="input-group-addon"><i class="fa fa-id-card"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Name</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="name" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+"e>									
+								<input type="text" class="form-control" name="username_edit" id="username_temp" placeholder="Username"  required="required">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span> 
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Email</label> 
+						<label class="control-label col-xs-3">Password</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+								<input type="password" class="form-control" name="password_edit" id="password" placeholder="Password" required="required">
+								<span class="input-group-addon"><i class="fa fa-lock"></i></span> 
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Level</label> 
+						<label class="control-label col-xs-3">Name</label> 
+						<div class="col-xs-8">
+							<div class="input-group">
+								<input type="text" class="form-control" name="name_edit" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+"e>									
+								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Email</label> 
+						<div class="col-xs-8">
+							<div class="input-group">
+								<input type="email" class="form-control" name="email_edit" id="email" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Level</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">							
                    				<label class="btn btn-success not-active" id="disableLbl">
                    					<i class="fa fa-user"></i> User 
-                   					<input type="radio" name="levelAdd" id="levelIsUser" value="0" required="required">
+                   					<input type="radio" name="levelEdit" id="levelIsUser" value="user" required="required">
                    				</label>
                    				<label class="btn btn-danger not-active" id="enableLbl">
                    					<i class="fa fa-user-secret"></i> Admin 
-                   					<input type="radio" name="levelAdd" id="levelIsAdmin" value="1" required="required">
+                   					<input type="radio" name="levelEdit" id="levelIsAdmin" value="admin" required="required">
                    				</label>
                    			</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-4">Status</label> 
+						<label class="control-label col-xs-3">Status</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">
-								<label class="btn btn-success not-active" id="enableLbl"><i class="fa fa-check-square-o"></i> Enable 
-									<input type="radio" name="statusAdd" id="statusEnable" value="1" required="required">
+								<label class="btn btn-success not-active" id="enableLbl">
+									<i class="fa fa-check-square-o"></i> Enable 
+									<input type="radio" name="statusEdit" id="statusEnable" value="enable" required="required">
 								</label>
                    				<label class="btn btn-danger not-active" id="disableLbl">
                    					<i class="fa fa-times-circle-o"></i> Disable 
-                   					<input type="radio" name="statusAdd" id="statusDisable" value="0" required="required">
+                   					<input type="radio" name="statusEdit" id="statusDisable" value="disable" required="required">
                    				</label>
                    			</div>
 						</div>
@@ -217,103 +222,12 @@
 				</div>
 
 		        <div class="modal-footer">
-		           	<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-		           	<button type="reset" class="btn btn-danger pull-right" name="reset" ><i class="fa fa-ban"></i> Reset</button>
+		           	<button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-ban"></i> Close</button>
+		           	<button type="reset" class="btn btn-info pull-right" name="reset" ><i class="fa fa-refresh"></i> Reset</button>
 		           	<span class="pull-right">&nbsp;&nbsp;</span>
-		           	<button type="submit" name="submit" id="submit" class="btn btn-success pull-right" value=""><i class="fa fa-save"></i> Submit</button>
+		           	<button type="submit" name="editUser" id="submit" class="btn btn-success pull-right" value="Edit"><i class="fa fa-save"></i> Edit</button>
 		        </div>
-	    	</form>
-      	</div>
-   	</div>
-</div> -->
-
-
-<!-- <div class="modal fade" id="modalUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
-	<div class="modal-dialog" role="document">
-   		<div class="modal-content">
-   			<div class="modal-header modal-info">
-       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-       				<h4 class="modal-title" id="exampleModalLabel">Add User Data</h4>
-   			</div>
-      					
-   			<form class="form-horizontal" id="userForm" action="" method="GET" enctype="<?php #echo $_SERVER['PHP_SELF'] ?>">
-   				<div class="modal-body">
-					<div class="form-group">
-						<label class="control-label col-xs-4">Username</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="username" id="username" placeholder="Username"  required="required">
-								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Password</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="password" id="password" placeholder="Password" required="required">
-								<span class="input-group-addon"><i class="fa fa-id-card"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Name</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="text" class="form-control" name="name" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+"e>									
-								<span class="input-group-addon"><i class="fa fa-user"></i></span> 
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Email</label> 
-						<div class="col-xs-8">
-							<div class="input-group">
-								<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">User Level</label> 
-						<div class="col-xs-8">
-							<div class="btn-group radio-group">							
-                   				<label class="btn btn-success not-active" id="disableLbl">
-                   					<i class="fa fa-user"></i> User 
-                   					<input type="radio" name="level" id="levelIsUser" value="0" required="required">
-                   				</label>
-                   				<label class="btn btn-danger not-active" id="enableLbl">
-                   					<i class="fa fa-user-secret"></i> Admin 
-                   					<input type="radio" name="level" id="levelIsAdmin" value="1" required="required">
-                   				</label>
-                   			</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-4">Status</label> 
-						<div class="col-xs-8">
-							<div class="btn-group radio-group">
-								<label class="btn btn-success not-active" id="enableLbl"><i class="fa fa-check-square-o">
-									
-								</i> Enable 
-									<input type="radio" name="status" id="statusEnable" value="1" required="required">
-								</label>
-                   				<label class="btn btn-danger not-active" id="disableLbl">
-                   					<i class="fa fa-times-circle-o"></i> Disable 
-                   					<input type="radio" name="status" id="statusDisable" value="0" required="required">
-                   				</label>
-                   			</div>
-						</div>
-					</div>
-				</div>
-
-		        <div class="modal-footer">
-		           	<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-		           	<button type="reset" class="btn btn-danger pull-right" name="reset" ><i class="fa fa-ban"></i> Reset</button>
-		           	<span class="pull-right">&nbsp;&nbsp;</span>
-		           	<button type="submit" name="submit" id="submit" class="btn btn-success pull-right" value=""><i class="fa fa-user-plus"></i> Reset</button>
-		        </div>
-	    	</form>
+	    	</form></div>
       	</div>
    	</div>
 </div>
- -->

@@ -16,9 +16,11 @@
 			bServerSide		: false,
 			bDestroy		: true,
 			bRetrieve		: true,
-			iDisplayLength	: 5,
+			deferRender		: true,
+			deferLoading	: 57, //57
+			iDisplayLength	: 5,			
 			searching		: true,
-			sPaginationType	: 'simple',
+			sPaginationType	: 'first_last_numbers',
 	     	stateSave		: true,
 			sAjaxSource		: "<?=base_url()?>index.php/home/jsonUser",
 			fnInitComplete: function()

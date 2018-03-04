@@ -152,6 +152,24 @@ class Home_db extends CI_MODEL
         $this->db->delete('file_list');
     }
 
+    public function upload_get_byId($id)
+    {
+        $this->db->select('file_id, file_tittle, name, file_desc, file_name, a.timestamp as date');
+        $this->db->from('file_list a');
+        $this->db->join('user b', 'a.username = b.username');  
+        $this->db->where('file_id', $id);
+        $query = $this->db->get();
+        return $query->row();
+
+        $this->db->select('file_id, a.file_tittle as fname, b.name as uname, location, file_desc, file_name, a.timestamp as time');
+        $this->db->from('file_list a');
+        $this->db->join('user b', 'a.username = b.username');  
+        $this->db->where('a.status', 1);
+        $this->db->order_by('a.timestamp', 'DESC');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
     /** Setting Table **/
     public function setting_select_all()
     {

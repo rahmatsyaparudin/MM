@@ -58,6 +58,9 @@
 			.swal-overlay {
   				background-color: rgba(43, 165, 137, 0.45);
 			}
+			.swal-button {
+  				color: black;
+			}
    			input[type=text]:valid {color: black;}
    			input[type=text]:invalid {color: red;}
    			input[type=email]:valid {color: black;}

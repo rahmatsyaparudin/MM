@@ -363,8 +363,8 @@ class Home extends CI_Controller
 					$row->file_id,
 					$row->fname,
 					$row->uname,
-					$date,
-					'<a class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					$date, 
+					'<a class="btn btn-xs btn-info"  data-toggle="modal" data-target="#modalViewDetail" data-whatever="'.$row->file_id.'" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
 					<a href="'.base_url().'index.php/home/upload/edit/'.$this->aes128->aesEncrypt($row->file_id).'" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit">
 						<i class="fa fa-edit"></i></a>
 				    <a class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return fileDelete('.$row->file_id.');"><i class="fa fa-trash"></i></a>'
@@ -379,6 +379,7 @@ class Home extends CI_Controller
 	public function jsonUploadDelete($id='')
 	{
 		$id = $this->input->post('id');
+		$edit = $this->input->post('edit');
 
 		$localDir = $this->home_db->upload_get_location($id);
 		$data = $this->home_db->upload_delete($id);
@@ -394,6 +395,12 @@ class Home extends CI_Controller
 		return;
 	}
 	
+	public function jsonUploadView($id='')
+	{
+		$data = $this->home_db->upload_get_byId($id);		
+		echo json_encode($data);
+		return;
+	}
 
 	/** User Controller **/
 	public function user($command = '')
@@ -484,13 +491,6 @@ class Home extends CI_Controller
 		}
 		$result['aaData'] = $aaData;
 		echo json_encode($result);
-		return;
-	}
-
-	public function jsonUserEdit($id='')
-	{
-		$data = $this->home_db->user_get_byId($id);		
-		echo json_encode($data);
 		return;
 	}
 

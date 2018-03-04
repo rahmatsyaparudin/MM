@@ -37,11 +37,9 @@
 						$loc = $row->location;
 						$src = base_url().$loc.'#pagemode=thumbs&navpanes=1&toolbar=0&statusbar=1&view=FitH'; 
 						$file_tittle = $row->file_tittle;
-
 						$timestamp = $row->timestamp;
 						$date = date('d M Y', strtotime($timestamp));
 						$dateTime = date('d F Y H:i:s', strtotime($timestamp));
-
 						$color = array_rand($bg);
 				?>
 				<li class="time-label">

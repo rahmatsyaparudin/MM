@@ -69,6 +69,7 @@
 		    	</form>
 			</div>
 		</div>
+
 		<div class="col-md-6">
 			<div class="box box-info box-solid">
 				<div class="box-header with-border">
@@ -96,3 +97,34 @@
 		</div>
 	</div>
 </section>
+
+<div class="modal fade modal-info" id="modalViewDetail" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+   		<div class="modal-content">
+   			<div class="modal-header">
+       			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       				<span aria-hidden="true">&times;</span>
+       			</button>
+       			<h4 class="modal-title" id="exampleModalLabel" style="text-align: justify; word-wrap: break-word; color: black;"></h4>
+   			</div>
+      		<div class="modal-body modal-center">   				
+				<div class="row">
+					<div class="col-md-12" style="text-align: justify; word-wrap: break-word; color: black;">
+            			<dl class="dl-horizontal">
+            				<dt><b>File ID : </b></dt><dd id="modal_id"></dd>
+            				<dt><b>Tittle : </b></dt><dd id="modal_tittle"></dd>
+            				<dt><b>File : </b></dt><dd id="modal_name"></dd>
+            				<dt><b>Uploader : </b></dt><dd id="modal_username"></dd>
+                			<dt><b>Upload Time : </b></dt><dd id="modal_date"></dd>            				
+              			</dl>
+              			<p><b>File Description : </b></p>
+              			<p id="modal_desc"></p>
+         			</div>
+         		</div>
+			</div>
+
+		    <div class="modal-footer">
+		    </div>
+      	</div>
+   	</div>
+</div>
