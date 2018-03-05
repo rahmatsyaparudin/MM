@@ -87,7 +87,7 @@
 			                	<th>ID</th>
 			                	<th>Tittle</th>
 			                  	<th>Uploaded By</th>
-			                  	<th>Date</th>
+			                  	<th>Upload Date</th>
 			                  	<th>Option</th>
 			                </tr>
 		                </thead>

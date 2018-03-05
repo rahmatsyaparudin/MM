@@ -1,0 +1,7 @@
+BUGS MeetingMorning
+
+1. Password Retype not yet
+2. Password Edit not yet 
+3. Disable status admin not yet (Minimum 1 admin shouldn't be disabled)
+4. Change admin level to user not yet (Minimum 1 admin shouldn't be changed)
+5. Setting Menu not yet (Folder changed create the new one)

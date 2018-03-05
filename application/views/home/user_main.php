@@ -144,11 +144,13 @@
 </div>
 
 <!-- Edit User Modal -->
-<div class="modal fade modal-primary" id="modalEditUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+<div class="modal fade modal-warning" id="modalEditUser" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
 	<div class="modal-dialog" role="document">
    		<div class="modal-content">
-   			<div class="modal-header modal-info">
-       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   			<div class="modal-header modal-warning">
+       			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       				<span aria-hidden="true">&times;</span>
+       			</button>
        			<h4 class="modal-title" id="exampleModalLabel">Edit User Data</h4>
    			</div>
       		<div id="row">			
@@ -158,7 +160,8 @@
 						<label class="control-label col-xs-3">Username</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="text" class="form-control" name="username_edit" id="username_temp" placeholder="Username"  required="required">
+								<input type="text" class="form-control" name="username_edit" id="username_edit" placeholder="Username"  required="required" pattern="[a-zA-Z0-9]{5,25}" minlength="5" maxlength="25" title="Username only contain number and letter between 5 and 25 character">
+								<input type="hidden" class="form-control" name="username_temp" id="username_temp" placeholder="Username"  required="required" pattern="[a-zA-Z0-9]{5,25}" minlength="5" maxlength="25" title="Username only contain number and letter between 5 and 25 character" readonly="readonly">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span> 
 							</div>
 						</div>
@@ -167,7 +170,7 @@
 						<label class="control-label col-xs-3">Password</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="password" class="form-control" name="password_edit" id="password" placeholder="Password" required="required">
+								<input type="password" class="form-control" name="password_edit" id="password_edit" placeholder="Password" required="required" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" minlength="8" maxlength="50" title="Password must contain letter and number at least 8 character">
 								<span class="input-group-addon"><i class="fa fa-lock"></i></span> 
 							</div>
 						</div>
@@ -176,7 +179,7 @@
 						<label class="control-label col-xs-3">Name</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="text" class="form-control" name="name_edit" id="name"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+"e>									
+								<input type="text" class="form-control" name="name_edit" id="name_edit"  placeholder="Name" required="required" pattern="[a-zA-Z0-9]+">									
 								<span class="input-group-addon"><i class="fa fa-id-badge"></i></span> 
 							</div>
 						</div>
@@ -185,7 +188,7 @@
 						<label class="control-label col-xs-3">Email</label> 
 						<div class="col-xs-8">
 							<div class="input-group">
-								<input type="email" class="form-control" name="email_edit" id="email" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+								<input type="email" class="form-control" name="email_edit" id="email_edit" placeholder="Email" required="required"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 							</div>
 						</div>
 					</div>
@@ -193,11 +196,11 @@
 						<label class="control-label col-xs-3">Level</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">							
-                   				<label class="btn btn-success not-active" id="disableLbl">
+                   				<label class="btn btn-success not-active" id="levelUserLbl">
                    					<i class="fa fa-user"></i> User 
                    					<input type="radio" name="levelEdit" id="levelIsUser" value="user" required="required">
                    				</label>
-                   				<label class="btn btn-danger not-active" id="enableLbl">
+                   				<label class="btn btn-danger not-active" id="levelAdminLbl">
                    					<i class="fa fa-user-secret"></i> Admin 
                    					<input type="radio" name="levelEdit" id="levelIsAdmin" value="admin" required="required">
                    				</label>
@@ -208,11 +211,11 @@
 						<label class="control-label col-xs-3">Status</label> 
 						<div class="col-xs-8">
 							<div class="btn-group radio-group">
-								<label class="btn btn-success not-active" id="enableLbl">
+								<label class="btn btn-success not-active" id="statusEnableLbl">
 									<i class="fa fa-check-square-o"></i> Enable 
 									<input type="radio" name="statusEdit" id="statusEnable" value="enable" required="required">
 								</label>
-                   				<label class="btn btn-danger not-active" id="disableLbl">
+                   				<label class="btn btn-danger not-active" id="statusDisableLbl">
                    					<i class="fa fa-times-circle-o"></i> Disable 
                    					<input type="radio" name="statusEdit" id="statusDisable" value="disable" required="required">
                    				</label>
@@ -225,7 +228,7 @@
 		           	<button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-ban"></i> Close</button>
 		           	<button type="reset" class="btn btn-info pull-right" name="reset" ><i class="fa fa-refresh"></i> Reset</button>
 		           	<span class="pull-right">&nbsp;&nbsp;</span>
-		           	<button type="submit" name="editUser" id="submit" class="btn btn-success pull-right" value="Edit"><i class="fa fa-save"></i> Edit</button>
+		           	<button type="submit" name="editUser" id="editUser" class="btn btn-success pull-right" value="Edit"><i class="fa fa-save"></i> Edit</button>
 		        </div>
 	    	</form></div>
       	</div>

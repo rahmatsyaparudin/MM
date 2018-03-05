@@ -57,7 +57,7 @@ class Home extends CI_Controller
 					$isAdmin = 0;
 
 					$data = $this->home_db->user_login($username);
-					$cekRow = $this->home_db->user_login_check_row($username);
+					$cekRow = $this->home_db->user_get_row($username);
 					foreach ($data as $row)
 					{
 						$getUser = $row->username;
@@ -328,7 +328,6 @@ class Home extends CI_Controller
 					        $message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Good Job!", text: "File ID '.$id.' successfully updated.", icon: "success", button: "Thank You!", timer: 5000,});});</script>';
 					        $this->session->set_flashdata('message', $message);
 					        redirect('home/upload');
-					        swal();
 						}
 						else
 						{
@@ -410,6 +409,9 @@ class Home extends CI_Controller
 		$message = '';
 		$message = $this->session->flashdata('message');
 
+		$cekRow = $this->home_db->user_get_row('admin');
+		echo "alert('<script>'".$cekRow->username."'</script>');";
+
 		if ($this->input->post('addUser') == 'Add'):
 			$username = trim($this->input->post('username'));
 			$password = trim($this->aes128->aesEncrypt($this->input->post('password')));
@@ -417,6 +419,8 @@ class Home extends CI_Controller
 			$email = trim($this->input->post('email'));
 			$level = trim($this->input->post('levelAdd'));
 			$status = trim($this->input->post('statusAdd'));
+
+			$getRow = $this->home_db->user_get_row($username);
 
 			if (empty($username)) 
 				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Username must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
@@ -432,7 +436,7 @@ class Home extends CI_Controller
 				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Status must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
 			else
 			{
-				if ($username == "admin") 
+				if ($username == $getRow->username) 
 					$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Oops!", text: "Username '.$username.' already exist in database.", icon: "error", button: "Give me a Time!", timer: 5000,});});</script>';
 				else
 				{
@@ -453,6 +457,77 @@ class Home extends CI_Controller
 				}
 			}
 		endif; #end addUser
+
+		if ($this->input->post('editUser') == 'Edit'):
+			$username_temp = $username = trim($this->input->post('username_temp'));
+			$username = trim($this->input->post('username_edit'));
+			$password = trim($this->aes128->aesEncrypt($this->input->post('password_edit')));
+			$name = trim($this->input->post('name_edit'));
+			$email = trim($this->input->post('email_edit'));
+			$level = trim($this->input->post('levelEdit'));
+			$status = trim($this->input->post('statusEdit'));
+
+			$isError = 0;
+			$isChange = 0;
+
+			if (empty($username)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Username must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else if (empty($password)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Password must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else if (empty($name)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Name must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else if (empty($email)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Email must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else if (empty($level)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Level must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else if (empty($status)) 
+				$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Sorry!", text: "Status must be fill.", icon: "warning", button: "Take it easy!", timer: 5000,});});</script>';
+			else
+			{
+
+				$checkRow = $this->home_db->user_check_row($username);
+
+				if (($username == $username_temp) && ($checkRow == 1))
+					$isError = 0;
+				if (($username != $username_temp) && ($checkRow == 1))
+					$isError = 1;
+				else if (($username != $username_temp) && ($checkRow == 0))
+				{
+					$isError = 0;
+					$isChange = 1;
+				}
+				
+				if ($isError == 0)
+				{
+					$isAdmin  = ($level == 'user') ? NULL : 1;
+					$isStatus  = ($status == 'enable') ? 1 : 0;
+					$data = array(
+					    'username' =>  $username,
+					    'password' =>  $password, 
+					    'name' =>  $name, 
+					    'email' =>  $email, 
+					    'isAdmin' =>  $isAdmin, 
+					    'status' =>  $isStatus,
+					);
+
+					$this->home_db->user_update($username_temp, $data);
+
+					if ($isChange == 0)
+						$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Good Job!", text: "Username '.$username_temp.' successfully updated.", icon: "success", button: "You the real MVP!", timer: 5000,});});</script>';
+					else
+						$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Good Job!", text: "Username '.$username_temp.' successfully changed to '.$username.'.", icon: "success", button: "You the real MVP!", timer: 5000,});});</script>';
+
+					$this->session->set_flashdata('message', $message);
+					redirect('home/user');
+				}
+				else if ($isError == 1)
+				{
+					$message = '<script type="text/javascript">$(document).ready(function(){swal ({title: "Oops!", text: "Username '.$username.' already exist in database.", icon: "error", button: "Give me a Time!", timer: 5000,});});</script>';
+					$this->session->set_flashdata('message', $message);
+					redirect('home/user');
+				}
+			}
+		endif; #end EditUser
 
 		$dir = 'home/';
 		$view['dir'] = $dir;
@@ -484,7 +559,7 @@ class Home extends CI_Controller
 					$level,
 					$status,
 					$row->timestamp,
-					'<a class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+					'<a class="btn btn-xs btn-warning"  data-toggle="modal" data-target="#modalEditUser" data-whatever="'.$row->username.'" data-placement="top" title="Edit" onclick="return alert('.$row->username.');"><i class="fa fa-edit"></i></a>
 				    <a class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick=" return userDelete(\''.$row->username.'\'); "><i class="fa fa-trash"></i></a>'
 				);
 			}
@@ -509,6 +584,36 @@ class Home extends CI_Controller
 		
 		header('Content-type: application/json');
 		echo json_encode($response_array);
+		return;
+	}
+
+	public function jsonUserEdit($id='')
+	{
+		$data = $this->home_db->user_get_byId($id);
+		$aaData = array();
+		if (!empty($data))
+		{
+			foreach ($data as $row) 
+			{
+				$result = array(
+					'username' => $row->username,
+					'password' => $this->aes128->aesDecrypt($row->password),
+					'name' => $row->name,
+					'email' => $row->email,
+					'isAdmin' => $row->isAdmin,
+					'status' => $row->status,
+					'timestamp' => $row->timestamp
+				);
+			}
+		}
+		echo json_encode($result);
+		return;
+	}
+
+	public function jsonTest($id='')
+	{
+		$data = $this->home_db->user_check_row($id);		
+		echo json_encode($data);
 		return;
 	}
 }

@@ -20,14 +20,22 @@ class Home_db extends CI_MODEL
         return $query;
     }
 
-    public function user_login_check_row($username)
+    public function user_get_row($username)
     {
-        $where = " username = '".$username."' AND status = 1";
         $this->db->select('name, username, password, status, isDeleted, isAdmin');
         $this->db->from('user');
-        $this->db->where($where);
-        $query = $this->db->get()->row();
-        return $query;
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function user_check_row($username)
+    {
+        $this->db->select('name, username, password, status, isDeleted, isAdmin');
+        $this->db->from('user');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        return $query->num_rows();
     }  
     
     public function user_select_all()
@@ -46,7 +54,7 @@ class Home_db extends CI_MODEL
         $this->db->select('*');
         $this->db->from('user');
         $this->db->where('username', $id);
-        $query = $this->db->get()->row();
+        $query = $this->db->get()->result();
         return $query;
     }
 
