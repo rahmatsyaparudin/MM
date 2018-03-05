@@ -409,9 +409,6 @@ class Home extends CI_Controller
 		$message = '';
 		$message = $this->session->flashdata('message');
 
-		$cekRow = $this->home_db->user_get_row('admin');
-		echo "alert('<script>'".$cekRow->username."'</script>');";
-
 		if ($this->input->post('addUser') == 'Add'):
 			$username = trim($this->input->post('username'));
 			$password = trim($this->aes128->aesEncrypt($this->input->post('password')));
